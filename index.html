@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NOVEL — люксовый апарт-отель 4★ на Иссык-Куле, Корумду. Частный пляж, три пирса, ресторан The Story Café. Бронирование через WhatsApp.">
+  <meta name="theme-color" content="#0b1018">
+  <meta property="og:title" content="NOVEL Hotel & The Story Café — Иссык-Куль">
+  <meta property="og:description" content="Апарт-отель 4★ с частным пляжем в 70 м от озера. Номера, коттеджи, ресторан.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:image" content="assets/hero-1.jpg">
+  <title>NOVEL Hotel & The Story Café — Иссык-Куль, Корумду</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+<!-- NAV -->
+<header><nav class="nav" aria-label="Главная навигация" id="nav">
+  <div class="logo-wrap">
+    <div class="logo-n">NOV<b>E</b>L</div>
+    <span class="logo-s">Hotel & The Story Café</span>
+  </div>
+  <ul class="nav-menu">
+    <li><a href="#about"><span id="t-nav-about">Об отеле</span></a></li>
+    <li><a href="#rooms"><span id="t-nav-rooms">Номера</span></a></li>
+    <li><a href="#restaurant"><span id="t-nav-restaurant">Ресторан</span></a></li>
+    <li><a href="#map-sec"><span id="t-nav-map">Карта</span></a></li>
+  </ul>
+  <div class="nav-actions">
+    <button type="button" class="na na-o" onclick="goBook('rest')"><span id="t-nav-book-rest">Стол в ресторане</span></button>
+    <button type="button" class="na na-g" onclick="goBook('hotel')"><span id="t-nav-book-hotel">Забронировать</span></button>
+  </div>
+  <div class="lang-sw" id="langSw">
+    <button type="button" class="lang-btn active" data-lang="ru" aria-pressed="true">🇷🇺 RU</button>
+    <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">🇬🇧 EN</button>
+    <button type="button" class="lang-btn" data-lang="kg" aria-pressed="false">🇰🇬 KG</button>
+    <button type="button" class="lang-btn" data-lang="kz" aria-pressed="false">🇰🇿 KZ</button>
+  </div>
+  <button type="button" class="burger" aria-label="Открыть меню" aria-expanded="false" id="burger" onclick="openMob()"><span></span><span></span><span></span></button>
+</nav></header>
+
+<!-- MOBILE MENU -->
+<div class="mob" role="dialog" aria-modal="true" aria-label="Мобильное меню" id="mob">
+  <button type="button" class="mob-x" aria-label="Закрыть меню" onclick="closeMob()">✕</button>
+  <a href="#about" onclick="closeMob()"><span id="t-mob-about">Об отеле</span></a>
+  <a href="#rooms" onclick="closeMob()"><span id="t-mob-rooms">Номера</span></a>
+  <a href="#restaurant" onclick="closeMob()"><span id="t-mob-restaurant">Ресторан</span></a>
+  <a href="#map-sec" onclick="closeMob()"><span id="t-mob-map">Карта</span></a>
+  <div class="mob-btns">
+    <button type="button" class="na-g mob-btn-gold" onclick="goBook('hotel');closeMob()"><span data-i18n="hero-btn1">Забронировать номер</span></button>
+    <button type="button" class="mob-btn-outline" onclick="goBook('rest');closeMob()"><span data-i18n="hero-btn2">Стол в ресторане</span></button>
+  </div>
+</div>
+
+<!-- HERO — только обзорные виды хорошего качества -->
+<section class="hero" id="home">
+      <div class="h-slides" id="hslides">
+    <div class="hsl hsl--1 on" role="img" aria-label="Вид на Иссык-Куль"></div>
+    <div class="hsl hsl--2" role="img" aria-hidden="true"></div>
+    <div class="hsl hsl--3" role="img" aria-hidden="true"></div>
+  </div>
+  <div class="h-ovl"></div>
+  <div class="h-inner rv">
+    <div class="h-tag"><div class="h-tag-dot"></div>Корумду · Иссык-Куль · 4 звезды</div>
+    <h1 class="h-title"><span id="t-hero-title1">Роскошь на берегу</span><br><em><span id="t-hero-title2">горного озера</span></em></h1>
+    <p class="h-sub"><span id="t-hero-sub">NOVEL — апарт-отель 4★ с частным пляжем, тремя пирсами и рестораном The Story Café. 70 метров от кристального Иссык-Куля.</span></p>
+    <div class="h-btns">
+      <button type="button" class="hbtn hbtn-p" onclick="goBook('hotel')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span id="t-hero-btn1">Забронировать номер</span>
+      </button>
+      <button type="button" class="hbtn hbtn-s" onclick="goBook('rest')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/><path d="M7 2v20"/><path d="M21 15V2s-5 2-5 10v3"/><line x1="21" y1="22" x2="6" y2="22"/></svg>
+        <span id="t-hero-btn2">Стол в ресторане</span>
+      </button>
+    </div>
+  </div>
+  <div class="h-scroll"><div class="h-scroll-line"></div><span class="h-scroll-t">вниз</span></div>
+  <div class="hdots" id="hdots"></div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n">51</div><div class="stat-l">Апартаментов</div></div>
+  <div class="stat"><div class="stat-n">4★</div><div class="stat-l">Категория</div></div>
+  <div class="stat"><div class="stat-n">70м</div><div class="stat-l">До озера</div></div>
+  <div class="stat"><div class="stat-n">3</div><div class="stat-l">Пирса</div></div>
+  <div class="stat"><div class="stat-n">4.3</div><div class="stat-l">Рейтинг</div></div>
+  <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Ресепшен</div></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="about-sec">
+  <div class="about-g">
+    <div class="about-imgs rv">
+      <!-- Главное: аэровид view1 (portrait — хорошо для tall card) -->
+      <div class="ai-main">
+        <img loading="lazy" decoding="async" src="assets/about-main.jpg" alt="NOVEL — аэровид с Тянь-Шанем" loading="lazy">
+      </div>
+      <!-- Справа: пирс + здание/территория -->
+      <div class="ai-sm">
+        <img loading="lazy" decoding="async" src="assets/about-1.jpg" alt="Пирс и пляж NOVEL" loading="lazy">
+      </div>
+      <div class="ai-sm">
+        <img loading="lazy" decoding="async" src="assets/about-2.jpg" alt="Территория отеля" loading="lazy">
+      </div>
+    </div>
+    <div class="about-text rv d2">
+      <div class="eyebrow" id="t-about-eye">Об отеле</div>
+      <h2 class="sec-h"><span id="t-about-title1">Ваш дом у</span><br><em><span id="t-about-title2">горного озера</span></em></h2>
+      <p class="sec-p sec-p--tight"><span id="t-about-p1">NOVEL — 4-звёздочный апарт-отель в деревне Корумду на северном берегу Иссык-Куля. Три деревянных пирса уходят прямо в кристальную воду, а из окон каждого номера открываются виды на заснеженный Тянь-Шань.</span></p>
+      <p class="sec-p"><span id="t-about-p2">Каждый из 51 апартамента оборудован полной кухней, кондиционером и высокоскоростным Wi-Fi. Отдельные коттеджи с собственным двором — идеальный выбор для семей.</span></p>
+      <div class="amen">
+        <div class="am">
+          <div class="icon icon--gold"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+          Частный пляж
+        </div>
+        <div class="am">
+          <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M2 12h20M2 12c0-5.523 4.477-10 10-10s10 4.477 10 10M2 12c0 5.523 4.477 10 10 10s10-4.477 10-10"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10"/><path d="M12 2a15.3 15.3 0 00-4 10 15.3 15.3 0 004 10"/></svg></div>
+          3 пирса в озеро
+        </div>
+        <div class="am">
+          <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M7 7V5a2 2 0 012-2h6a2 2 0 012 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div>
+          Открытый бассейн
+        </div>
+        <div class="am">
+          <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2s-5 2-5 10v3M21 22H6"/></svg></div>
+          The Story Café
+        </div>
+        <div class="am">
+          <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          Теннисный корт
+        </div>
+        <div class="am">
+          <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 10h6M9 14h6M9 18h4"/></svg></div>
+          Детская площадка
+        </div>
+        <div class="am">
+          <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+          Завтраки включены
+        </div>
+        <div class="am">
+          <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          Wi-Fi везде
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY — все фото вперемешку по типам -->
+<div class="gal">
+  <div class="gal-hdr">
+    <div>
+      <div class="eyebrow eyebrow--muted">Галерея</div>
+      <h2 class="sec-h">Фотографии</h2>
+    </div>
+    <span class="gal-hint">листай</span>
+  </div>
+  <div class="gtrack" id="gtrack">
+    <div class="gi"><img loading="lazy" decoding="async" src="assets/gallery-1.jpg" alt="Аэровид NOVEL с Тянь-Шанем" loading="lazy"><div class="gi-cap">Аэровид · Тянь-Шань</div></div>
+    <div class="gi"><img loading="lazy" decoding="async" src="assets/gallery-2.jpg" alt="Территория и коттеджи" loading="lazy"><div class="gi-cap">Территория</div></div>
+    <div class="gi"><img loading="lazy" decoding="async" src="assets/gallery-3.jpg" alt="Номер NOVEL" loading="lazy"><div class="gi-cap">Интерьер номера</div></div>
+    <div class="gi"><img loading="lazy" decoding="async" src="assets/gallery-4.jpg" alt="Здание отеля" loading="lazy"><div class="gi-cap">Главное здание</div></div>
+    <div class="gi"><img loading="lazy" decoding="async" src="assets/gallery-5.jpg" alt="Спальня" loading="lazy"><div class="gi-cap">Спальня</div></div>
+    <div class="gi"><img loading="lazy" decoding="async" src="assets/gallery-6.jpg" alt="Коттеджи" loading="lazy"><div class="gi-cap">Коттеджи</div></div>
+    <div class="gi"><img loading="lazy" decoding="async" src="assets/gallery-7.jpg" alt="The Story Café" loading="lazy"><div class="gi-cap">The Story Café</div></div>
+  </div>
+</div>
+
+<!-- ROOMS -->
+<section id="rooms" class="rooms-sec">
+  <div class="rv">
+    <div class="eyebrow" id="t-rooms-eye">Размещение</div>
+    <h2 class="sec-h"><span id="t-rooms-title1">Номера и</span> <em><span id="t-rooms-title2">коттеджи</span></em></h2>
+    <p class="sec-p"><span id="t-rooms-sub">Выберите идеальный вариант: от апартаментов с видом на озеро до просторных коттеджей со своим двором.</span></p>
+    <div class="room-tabs">
+      <button class="rtab on" onclick="switchRoom('ap')"><span id="t-tab-rooms">Номера</span></button>
+      <button class="rtab" onclick="switchRoom('cottage')"><span id="t-tab-cottage">Коттеджи</span></button>
+    </div>
+  </div>
+
+  <!-- НОМЕРА — используем реальные фото номеров из архива -->
+  <div class="rp on" id="rp-ap">
+    <div class="rcard rv d1">
+      <div class="rc-img">
+        <img loading="lazy" decoding="async" src="assets/room-deluxe.jpg" alt="Номер NOVEL — спальня с дизайнерским изголовьем" loading="lazy">
+        <span class="rc-tag tg-gold">Популярный</span>
+      </div>
+      <div class="rc-body">
+        <div class="rc-name">Deluxe Апартамент</div>
+        <p class="rc-desc">Просторный апартамент с отдельной спальней, гостиной, полной кухней и балконом с видом на Иссык-Куль. Дизайнерский велюровый изголовок.</p>
+        <div class="rc-feats">
+          <span class="rcf">Отд. спальня</span><span class="rcf">Кухня</span>
+          <span class="rcf">Балкон</span><span class="rcf">Вид на озеро</span><span class="rcf">Wi-Fi</span>
+        </div>
+        <div class="rc-foot">
+          <div class="rc-price">от <strong>$295</strong>/ночь</div>
+          <button class="rc-btn" onclick="goBook('hotel')">Забронировать</button>
+        </div>
+      </div>
+    </div>
+    <div class="rcard rv d2">
+      <div class="rc-img">
+        <img loading="lazy" decoding="async" src="assets/room-superior.jpg" alt="Номер NOVEL — светлая спальня с панорамным окном" loading="lazy">
+        <span class="rc-tag tg-dark">Вид на горы</span>
+      </div>
+      <div class="rc-body">
+        <div class="rc-name">Superior</div>
+        <p class="rc-desc">Апартамент с панорамными окнами в пол. Прямой вид на Тянь-Шань из спальни. Паркет ёлочкой, белоснежный текстиль.</p>
+        <div class="rc-feats">
+          <span class="rcf">Панорамные окна</span><span class="rcf">Кухня</span>
+          <span class="rcf">Вид на горы</span><span class="rcf">Паркет</span>
+        </div>
+        <div class="rc-foot">
+          <div class="rc-price">от <strong>$320</strong>/ночь</div>
+          <button class="rc-btn" onclick="goBook('hotel')">Забронировать</button>
+        </div>
+      </div>
+    </div>
+    <div class="rcard rv d3">
+      <div class="rc-img">
+        <img loading="lazy" decoding="async" src="assets/room-suite.jpg" alt="Номер NOVEL — уютная спальня" loading="lazy">
+        <span class="rc-tag tg-dark">Suite</span>
+      </div>
+      <div class="rc-body">
+        <div class="rc-name">Suite</div>
+        <p class="rc-desc">Флагманский номер с ванной, отдельной спальней и гостиной. Chandelier-люстра, мраморная ванная с золотым зеркалом.</p>
+        <div class="rc-feats">
+          <span class="rcf">Ванная люкс</span><span class="rcf">Гостиная</span>
+          <span class="rcf">Кухня</span><span class="rcf">Мини-бар</span>
+        </div>
+        <div class="rc-foot">
+          <div class="rc-price">от <strong>$337</strong>/ночь</div>
+          <button class="rc-btn" onclick="goBook('hotel')">Забронировать</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- КОТТЕДЖИ — реальные фото из папки котеджи -->
+  <div class="rp" id="rp-cottage">
+    <!-- Главная карточка: горизонтальная — гостиная коттеджа -->
+    <div class="rcard-w rcard-w--full rv">
+      <div class="rc-img">
+        <img loading="lazy" decoding="async" src="assets/cottage-1.jpg" alt="Гостиная коттеджа NOVEL — синие кресла" loading="lazy">
+        <span class="rc-tag tg-green">Коттедж</span>
+      </div>
+      <div class="rc-body">
+        <div class="rc-name">Коттедж</div>
+        <p class="rc-desc rc-desc--spaced">Отдельный двухэтажный коттедж с собственным двором и парковочным местом. Просторная гостиная-студия, полная кухня, две спальни. Для семей и компаний до 6 человек.</p>
+        <div class="rc-feats rc-feats--spaced">
+          <span class="rcf">Свой двор</span><span class="rcf">Парковка</span>
+          <span class="rcf">До 6 гостей</span><span class="rcf">Кухня</span>
+          <span class="rcf">2 спальни</span><span class="rcf">Гостиная</span>
+        </div>
+        <div class="rc-foot">
+          <div class="rc-price">от <strong>$443</strong>/ночь</div>
+          <button class="rc-btn" onclick="goBook('hotel')">Забронировать коттедж</button>
+        </div>
+      </div>
+    </div>
+    <!-- Малые карточки коттеджей -->
+    <div class="rcard rv d1">
+      <div class="rc-img">
+        <img loading="lazy" decoding="async" src="assets/cottage-2.jpg" alt="Коттедж NOVEL — интерьер" loading="lazy">
+      </div>
+      <div class="rc-body">
+        <div class="rc-name">Интерьер коттеджа</div>
+        <p class="rc-desc">Тёплые шторы, хрустальные люстры, синие бархатные кресла — атмосфера домашнего уюта.</p>
+        <div class="rc-feats"><span class="rcf">Дизайнерский</span><span class="rcf">Тёплый интерьер</span></div>
+      </div>
+    </div>
+    <div class="rcard rv d2">
+      <div class="rc-img">
+        <img loading="lazy" decoding="async" src="assets/cottage-3.jpg" alt="Территория коттеджей — вид сверху" loading="lazy">
+      </div>
+      <div class="rc-body">
+        <div class="rc-name">Территория</div>
+        <p class="rc-desc">Ухоженные газоны, зелёные деревья, детская площадка — всё в шаговой доступности от коттеджа.</p>
+        <div class="rc-feats"><span class="rcf">Газоны</span><span class="rcf">Охрана 24/7</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEACH & PIERS -->
+<div class="beach-sec">
+  <div class="beach-img">
+    <img loading="lazy" decoding="async" src="assets/beach.jpg" alt="Пляж NOVEL Иссык-Куль" loading="lazy">
+    <div class="beach-ovl"></div>
+  </div>
+  <div class="beach-txt rv">
+    <div class="eyebrow eyebrow--muted" id="t-beach-eye">Инфраструктура</div>
+    <h2 class="sec-h"><span id="t-beach-title1">Пляж, пирсы</span><br>и <em><span id="t-beach-title2">бассейн</span></em></h2>
+    <p class="sec-p"><span id="t-beach-sub">Три пирса прямо от отеля уходят в бирюзовую воду Иссык-Куля. Частный пляж только для гостей.</span></p>
+    <div class="beach-list">
+      <div class="bi">
+        <div class="bi-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12c0 4.418-4.03 8-9 8a9.862 9.862 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        </div>
+        <div><div class="bi-title">Частный пляж</div><div class="bi-desc">Только для гостей. Лежаки, зонтики, полотенца — всё включено.</div></div>
+      </div>
+      <div class="bi">
+        <div class="bi-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17l3-3 4 4 4-4 4 4"/><path d="M3 7h18M3 12h18"/></svg>
+        </div>
+        <div><div class="bi-title">3 пирса в озеро</div><div class="bi-desc">Три деревянных пирса 40+ м уходят в кристально чистую воду Иссык-Куля.</div></div>
+      </div>
+      <div class="bi">
+        <div class="bi-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h2m18 0h-2M5.636 5.636l1.414 1.414M16.95 16.95l1.414 1.414M5.636 18.364l1.414-1.414M16.95 7.05l1.414-1.414M12 2v2m0 18v-2"/><circle cx="12" cy="12" r="5"/></svg>
+        </div>
+        <div><div class="bi-title">Бассейн с баром</div><div class="bi-desc">Открытый бассейн с детской зоной и баром. Работает июнь–сентябрь.</div></div>
+      </div>
+      <div class="bi">
+        <div class="bi-ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div><div class="bi-title">Теннис и досуг</div><div class="bi-desc">Теннисный корт, детская площадка, фитнес-центр и набережная вдоль берега.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESTAURANT -->
+<section id="restaurant" class="rest-sec">
+  <div class="rv">
+    <div class="eyebrow" id="t-rest-eye">Гастрономия</div>
+    <h2 class="sec-h"><span id="t-rest-title1">The Story</span> <em><span id="t-rest-title2">Café</span></em></h2>
+    <p class="sec-p"><span id="t-rest-sub">Современный ресторан с живым видом на Иссык-Куль и Тянь-Шань. Авторское меню, тёплая атмосфера, летняя терраса.</span></p>
+  </div>
+  <div class="rest-grid">
+    <div class="rest-imgs rv">
+      <!-- Главное фото: фасад Story с пальмами -->
+      <div class="ri-big">
+        <img loading="lazy" decoding="async" src="assets/restaurant-1.jpg" alt="The Story Café — фасад ресторана" loading="lazy">
+      </div>
+      <!-- Малое фото: пирс+вид на ресторан издалека -->
+      <div class="ri-sm">
+        <img loading="lazy" decoding="async" src="assets/restaurant-2.jpg" alt="Вид на The Story Café с пирса" loading="lazy">
+      </div>
+    </div>
+    <div class="rest-info rv d2">
+      <div class="r-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2s-5 2-5 10v3M21 22H6"/></svg>
+        The Story Café при отеле NOVEL
+      </div>
+      <h3 class="sec-h rest-about">О ресторане</h3>
+      <p class="sec-p">Просторный ресторан с деревянным потолком, большими витражными окнами и мягкими диванами. Летняя терраса с пальмами — прямо у бассейна.</p>
+      <div class="rstats">
+        <div class="rstat"><div class="rsn">120</div><div class="rsl">Мест в зале</div></div>
+        <div class="rstat"><div class="rsn">60</div><div class="rsl">На террасе</div></div>
+        <div class="rstat"><div class="rsn">08–23</div><div class="rsl">Работа</div></div>
+        <div class="rstat"><div class="rsn">4</div><div class="rsl">Кухни мира</div></div>
+      </div>
+      <div class="rmenu">
+        <div class="rmi">
+          <div class="rmi-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div><div class="rmi-name">Завтраки</div><div class="rmi-desc">08:00–11:00 · Омлеты на заказ, кыргызская кухня, свежая выпечка</div></div>
+        </div>
+        <div class="rmi">
+          <div class="rmi-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2s-5 2-5 10v3M21 22H6"/></svg></div>
+          <div><div class="rmi-name">Обеды и ужины</div><div class="rmi-desc">12:00–23:00 · Авторская кухня: местная, азиатская, европейская</div></div>
+        </div>
+        <div class="rmi">
+          <div class="rmi-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 22h8M12 11v11M20 12a8 8 0 11-16 0"/><path d="M12 2v4M8 3l1.5 3M16 3l-1.5 3"/></svg></div>
+          <div><div class="rmi-name">Pool Bar</div><div class="rmi-desc">11:00–22:00 · Коктейли и закуски у бассейна и пирсов</div></div>
+        </div>
+        <div class="rmi">
+          <div class="rmi-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+          <div><div class="rmi-name">Банкеты и события</div><div class="rmi-desc">Свадьбы, корпоративы — зал на 120 мест или открытая терраса</div></div>
+        </div>
+      </div>
+      <button class="rest-cta" onclick="goBook('rest')">Забронировать стол →</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- BOOKING -->
+<section class="book-sec" id="booking">
+  <div class="book-hd rv">
+    <div class="eyebrow eyebrow--center">
+      <span>Онлайн-бронирование</span>
+    </div>
+    <h2 class="sec-h sec-h--center">
+      <span><span id="t-book-title1">Забронируйте</span></span>
+      <em><span><span id="t-book-title2">онлайн</span></span></em>
+    </h2>
+    <p class="sec-p sec-p--center">
+      <span><span id="t-book-sub">Напишите нам в WhatsApp — ответим в течение 15 минут</span></span>
+    </p>
+  </div>
+
+  <div class="book-grid rv">
+
+    <!-- HOTEL -->
+    <div class="book-card">
+      <div class="book-card-icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3>
+        <span><span id="t-card1-title">Номер в отеле</span></span>
+      </h3>
+      <p>
+        <span><span id="t-card1-desc">Апартаменты от $295/ночь. Deluxe, Superior, Suite, Коттедж — уточним наличие и цены.</span></span>
+      </p>
+      <a href="https://wa.me/996999910110?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%B1%D1%80%D0%BE%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%20%D0%BD%D0%BE%D0%BC%D0%B5%D1%80%20%D0%B2%20NOVEL%20Hotel."
+         target="_blank"
+         class="wa-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span><span id="t-card1-btn"><span id="t-card2-btn">Написать в WhatsApp</span></span></span>
+      </a>
+      <p class="phone-hint">+996 999 910 110</p>
+    </div>
+
+    <!-- RESTAURANT -->
+    <div class="book-card">
+      <div class="book-card-icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2s-5 2-5 10v3M21 22H6"/></svg>
+      </div>
+      <h3>
+        <span>Стол в ресторане</span>
+      </h3>
+      <p>
+        <span><span id="t-card2-desc">The Story Café — 120 мест в зале, 60 на террасе. Завтраки, обеды, ужины, банкеты.</span></span>
+      </p>
+      <a href="https://wa.me/996503910110?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%B1%D1%80%D0%BE%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%20%D1%81%D1%82%D0%BE%D0%BB%20%D0%B2%20The%20Story%20Caf%C3%A9."
+         target="_blank"
+         class="wa-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span>Написать в WhatsApp</span>
+      </a>
+      <p class="phone-hint">+996 503 910 110</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- MAP -->
+<div id="map-sec" class="map-sec">
+  <div class="map-top">
+    <div class="eyebrow" id="t-map-eye">Расположение</div>
+    <h2 class="sec-h"><span id="t-map-title1">Как нас</span> <em><span id="t-map-title2">найти</span></em></h2>
+    <p class="sec-p sec-p--map"><span id="t-map-sub">Северный берег Иссык-Куля, деревня Корумду. 70 метров до воды.</span></p>
+    <div class="map-cards">
+      <div class="mc">
+        <div class="mc-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><div class="mc-l">Адрес</div><div class="mc-v">Корумду, ул. Садатканова 1/1</div></div>
+      </div>
+      <div class="mc">
+        <div class="mc-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21 4 19.5 2.5S18 2 16.5 3.5L13 7 4.8 5.2a1 1 0 00-.9.3L2 7.5a1 1 0 00.1 1.4l4 3a1 1 0 001.2 0l2.3-1.7 3.3 3.3-1.7 2.3a1 1 0 000 1.2l3 4a1 1 0 001.4.1l2-1.9a1 1 0 00.3-.9z"/></svg></div>
+        <div><div class="mc-l">Аэропорт Тамчы</div><div class="mc-v">53 км · ~45 мин</div></div>
+      </div>
+      <div class="mc">
+        <div class="mc-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <div><div class="mc-l">Из Бишкека</div><div class="mc-v">~280 км · ~3.5 часа</div></div>
+      </div>
+      <div class="mc">
+        <div class="mc-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div><div class="mc-l">Ресепшен 24/7</div><div class="mc-v">+996 999 910 110</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<!-- REVIEWS -->
+<section class="rev-sec">
+  <div class="rv">
+    <div class="eyebrow" id="t-rev-eye">Отзывы</div>
+    <h2 class="sec-h"><span id="t-rev-title1">Что говорят</span> <em><span id="t-rev-title2">гости</span></em></h2>
+  </div>
+  <div class="rev-g">
+    <div class="rvc rv d1"><div class="rvs">★★★★★</div><p class="rvq">«Шикарный вид на озеро и горы. Сто метров до пляжа, чисто везде. Три пирса — это просто невероятно. Обязательно вернёмся!»</p><div class="rva">Анна М.</div><div class="rvd">Август 2024</div><span class="rvsrc">Booking.com</span></div>
+    <div class="rvc rv d2"><div class="rvs">★★★★★</div><p class="rvq">«Номер просторный, ванная шикарная. Завтраки разнообразные каждый день. Персонал очень вежливый и отзывчивый.»</p><div class="rva">Дмитрий К.</div><div class="rvd">Июль 2024</div><span class="rvsrc">2GIS · 4.3★</span></div>
+    <div class="rvc rv d3"><div class="rvs">★★★★☆</div><p class="rvq">«Коттедж с собственным двором — мечта для семьи. Большие апартаменты, бассейн рядом, горы за окном. Отличный выбор!»</p><div class="rva">Мария и Алексей Л.</div><div class="rvd">Сентябрь 2024</div><span class="rvsrc">Booking.com</span></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-main">
+    <div>
+      <div class="f-logo">NOV<b>E</b>L</div>
+      <p class="f-desc">4-звёздочный апарт-отель и ресторан The Story Café на северном берегу Иссык-Куля, Корумду.</p>
+      <div class="f-soc">
+        <a href="https://instagram.com/novel_hotel.kg" target="_blank">Instagram</a>
+        <a href="https://wa.me/996999910110" target="_blank">WhatsApp</a>
+        <a href="tel:+996999910110">Телефон</a>
+      </div>
+    </div>
+    <div>
+      <div class="f-h">Навигация</div>
+      <div class="f-ls">
+        
+        <a href="#rooms"><span>Номера</span></a>
+        <a href="#restaurant">The Story Café</a>
+        <a href="#map-sec"><span>Карта</span></a>
+        <a href="#booking"><span id="t-book-eyebrow">Бронирование</span></a>
+      </div>
+    </div>
+    <div>
+      <div class="f-h">Номера</div>
+      <div class="f-ls">
+        <a href="#rooms">Deluxe Апартамент</a>
+        <a href="#rooms">Superior</a>
+        <a href="#rooms">Suite</a>
+        <a href="#rooms">Коттедж</a>
+      </div>
+    </div>
+    <div>
+      <div class="f-h">Контакты</div>
+      <div class="f-ci">
+        <div class="f-ci-i"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="f-ci-v">Корумду, ул. Садатканова 1/1<br>Иссык-Кульская область</div>
+      </div>
+      <div class="f-ci">
+        <div class="f-ci-i"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div class="f-ci-v"><a href="tel:+996999910110">+996 999 910 110</a><br><a href="tel:+996503910110">+996 503 910 110</a></div>
+      </div>
+      <div class="f-ci">
+        <div class="f-ci-i"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div>
+        <div class="f-ci-v"><a href="https://wa.me/996503910110" target="_blank">WhatsApp</a> · <a href="https://instagram.com/novel_hotel.kg" target="_blank">Instagram @novel_hotel.kg</a></div>
+      </div>
+      <div class="f-ci">
+        <div class="f-ci-i"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="f-ci-v">Ресепшен: 24/7<br>Ресторан: 08:00–23:00</div>
+      </div>
+    </div>
+  </div>
+  <div class="f-bot">
+    <span>© 2025 NOVEL Hotel & The Story Café · Корумду, Иссык-Куль, Кыргызстан</span>
+    <span class="f-bot-muted">novel_hotel.kg</span>
+  </div>
+</footer>
+
+<button type="button" class="btt" id="btt" aria-label="Наверх"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+
+
+
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+<script src="js/script.js" defer></script>
+</body>
+</html>
